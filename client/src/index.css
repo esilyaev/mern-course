@@ -5,6 +5,10 @@
 .card-action .btn {
   margin-right: 10px;
 }
+
+input {
+  color: #fff;
+}
 input + label {
   color: #ffffff !important;
 }

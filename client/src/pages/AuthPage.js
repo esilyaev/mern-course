@@ -1,17 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useHttp } from '../hooks/http.hook'
+import { useMessage } from '../hooks/message.hook'
+import { AuthContext } from '../context/AuthContext'
 
 export const AuthPage = () => {
-  const { loading, error, request } = useHttp()
+  const auth = useContext(AuthContext)
+  const message = useMessage()
+  const { loading, error, request, clearError } = useHttp()
   const [form, setForm] = useState({
     email: '', password: ''
   })
 
-  // console.log(form)
+  useEffect(()=>{
+    message(error)
+    clearError()
+  }, [error, message, clearError])
+
+
+  const loginHandler = async () => {
+    try {
+      const data = await request('/api/auth/login', 'POST', { ...form })
+      message(data.message)
+      auth.login(data.token, data.userId)
+    } catch (error) {
+
+    }
+  }
 
   const registerHandler = async () => {
     try {
       const data = await request('/api/auth/register', 'POST', { ...form })
+      message(data.message)
       console.log('DATA', data)
 
     } catch (error) {
@@ -53,7 +72,7 @@ export const AuthPage = () => {
           {/* CONTROLS */}
           <div className="card-action">
             <button className="btn yellow darken-4"
-              disabled={loading}>
+              onClick={loginHandler} disabled={loading}>
               Войти</button>
             <button className="btn green darken-4"
               onClick={registerHandler} disabled={loading}>
