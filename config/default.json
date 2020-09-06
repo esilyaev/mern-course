@@ -1,4 +1,5 @@
 {
   "port" : 5000,
-  "mongoUrl" : "dbUser:1z2x3c4v@cluster0.zosqj.mongodb.net/<dbname>?retryWrites=true&w=majority"
+  "mongoUrl" : "mongodb+srv://dbUser:1z2x3c4v@cluster0.zosqj.mongodb.net/app?retryWrites=true&w=majority",
+  "jwt-secret" : "secret secret"
 }
